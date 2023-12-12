@@ -25,6 +25,12 @@ export function App() {
   };
 
   const handleSubmit = ({ name, number }) => {
+    const existingContact = contacts.find((contact) => contact.name === name);
+    if (existingContact) {
+      alert('Contact with this name already exists');
+      return;
+    }
+
     const newContact = { id: nanoid(), name, number };
     setContacts(prevContacts => [...prevContacts, newContact]);
   };
@@ -35,7 +41,10 @@ export function App() {
 
   const getFilteredContacts = () => {
     const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter) ||
+      contact.number.toLowerCase().includes(normalizedFilter)
+    );
   };
 
   return (
